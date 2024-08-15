@@ -14,7 +14,7 @@
 <style scoped>
 .app-main {
   height: 100%;
-  padding: 10px;
+  padding: 20px;
   background: #f0f2f5;
 }
 </style>

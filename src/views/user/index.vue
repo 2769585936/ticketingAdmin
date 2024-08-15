@@ -86,8 +86,8 @@ const openDialogHandler = value => {
 }
 
 //确定 修改user
-const updateUser = async formEl => {
-  const validata = await formEl.validate().catch(err => false)
+const updateUser = async () => {
+  const validata = await ruleFormRef.value.validate().catch(err => false)
   if (!validata) return
   await updateUserApi(userDialogValue.value)
   closeDialogHandler()
@@ -123,12 +123,12 @@ const stateHandler = value => {
       </el-select>
       <el-button type="primary" :icon="Search" @click="userFind">查询</el-button>
     </el-form>
-    <el-table v-loading="loading" class="table-main" header-row-class-name="table-cell-tr" :data="userList" style="width: 100%" border header-cell-class-name="table-header-style">
+    <my-table v-loading="loading" class="table-main" :data="userList">
       <el-table-column type="index" align="center" label="索引" width="60" />
       <el-table-column prop="_id" align="center" label="UID" width="180" />
       <el-table-column prop="phone" align="center" label="手机号" width="180" />
       <el-table-column prop="email" align="center" label="邮箱" />
-      <el-table-column prop="name" align="center" label="姓名" />
+      <el-table-column prop="name" align="center" label="名称" />
       <el-table-column align="center" label="头像" width="80">
         <template #default="{ row }">
           <img @click="perviewShowHandler(row.userPicture)" class="user-picture-mini" :src="row.userPicture" :alt="row.name" style="width: 60px; height: 60px; border-radius: 50%" />
@@ -144,12 +144,11 @@ const stateHandler = value => {
           <el-button type="primary" @click="openDialogHandler(row)">编辑</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </my-table>
     <!-- 头像预览 -->
-    <el-image-viewer v-if="perviewShow" @close="perviewHideHandler" hide-on-click-modal close-on-press-escape :url-list="perviewList" :url="perviewList[0]" teleported />
-
+    <el-image-viewer v-if="perviewShow" @close="perviewHideHandler" hide-on-click-modal close-on-press-escape :url-list="perviewList" teleported />
     <!-- 设置对话框 -->
-    <el-dialog v-if="userDialogSetting" v-model="userDialogSetting" :title="userDialogValue.label" width="380">
+    <update-dialog v-if="userDialogSetting" v-model="userDialogSetting" :title="'名称：' + userDialogValue.label" :clickBtnHandler="updateUser">
       <el-form ref="ruleFormRef" :model="userDialogValue" :rules="userListRules" label-width="70">
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="userDialogValue.phone" />
@@ -163,16 +162,11 @@ const stateHandler = value => {
           </el-select>
         </el-form-item>
       </el-form>
-      <!--... -->
-      <template #footer>
-        <el-button type="primary" @click="updateUser(ruleFormRef)">确定</el-button>
-      </template>
-    </el-dialog>
+    </update-dialog>
   </div>
 </template>
 <style scoped lang="scss">
 .user-main {
-  padding: 8px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -212,16 +206,5 @@ const stateHandler = value => {
     flex-shrink: 0;
     margin: 0 16px;
   }
-}
-
-:deep(.table-cell-tr) {
-  word-break: break-word;
-  background-color: #f8f8f9;
-  color: #515a6e;
-  height: 40px;
-  font-size: 13px;
-}
-:deep(.table-header-style) {
-  background: #f8f8f9 !important;
 }
 </style>

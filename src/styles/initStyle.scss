@@ -28,3 +28,17 @@ img {
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
+
+//#region 修改el table 样式
+.table-cell-tr {
+  word-break: break-word;
+  color: #515a6e;
+  height: 40px;
+  font-size: 13px;
+}
+
+.table-header-style {
+  background: #f8f8f9 !important;
+}
+
+//#endregion

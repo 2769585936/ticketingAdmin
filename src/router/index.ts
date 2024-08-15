@@ -34,7 +34,8 @@ const routes = [
           title: '影院信息',
           cache: true,
           icon: 'icon-yingyuan'
-        }
+        },
+        component: () => import('@/views/movie/cinema.vue')
       }
     ]
   },
