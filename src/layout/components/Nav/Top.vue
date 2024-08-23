@@ -3,9 +3,9 @@ import { Expand, Fold, FullScreen, EditPen } from '@element-plus/icons-vue'
 import { useLayoutStore } from '@/store/index'
 import { toRefs } from 'vue'
 import { viewportWidth996 } from '@/hooks/viewportWidth'
-
+import { useAdminStore } from '@/store/index'
 const { collapseState, toggleCollapse, toggleCollapseThrottle } = toRefs(useLayoutStore())
-
+const { adminState, removeAdminState } = useAdminStore()
 viewportWidth996(toggleCollapse.value)
 
 // 切换全屏
@@ -50,12 +50,12 @@ const changeFullHandler = () => (document.fullscreenElement ? document.exitFulls
       <li>
         <el-dropdown>
           <div class="el-dropdown-link">
-            <el-avatar class="mr-3" :size="32" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-            <span>admin</span>
+            <el-avatar class="mr-3" :size="32" :src="adminState.userPicture" />
+            <span>{{ adminState.name }}</span>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item @click="removeAdminState">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

@@ -20,7 +20,7 @@ const userList = ref([])
 
 const getUserList = async (data = undefined) => {
   loading.value = true
-  const res = await getUserApi(data)
+  const res = await getUserApi(data).catch(err => {})
   if (res) {
     userList.value = res.data
   }
@@ -90,8 +90,8 @@ const updateUser = async () => {
   const validata = await ruleFormRef.value.validate().catch(err => false)
   if (!validata) return
   await updateUserApi(userDialogValue.value)
-  closeDialogHandler()
   // 关闭弹窗
+  closeDialogHandler()
   await getUserList()
 }
 
@@ -117,7 +117,7 @@ const stateHandler = value => {
 <template>
   <div class="user-main">
     <el-form :model="formObj" class="demo-form-inline" size="default">
-      <el-input v-model="formObj.phone" placeholder="请输入手机号/用户ID" :prefix-icon="Search" />
+      <el-input v-model.trim="formObj.phone" placeholder="请输入手机号/用户ID" :prefix-icon="Search" />
       <el-select v-model="formObj.userState" class="select-width" placeholder="Activity zone">
         <el-option v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
       </el-select>

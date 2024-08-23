@@ -14,18 +14,18 @@ const routes = [
     component: Layout,
     meta: {
       title: '电影管理',
-      cache: true,
       icon: 'icon-dianyingpiao'
     },
     children: [
       {
-        path: 'detail',
-        name: 'detail',
+        path: 'index',
+        name: 'movie-index',
         meta: {
-          title: '电影详情',
+          title: '电影信息',
           cache: true,
           icon: 'icon-dianyingpiao'
-        }
+        },
+        component: () => import('@/views/movie/index.vue')
       },
       {
         path: 'cinema',
@@ -90,8 +90,8 @@ const router = createRouter<any>({
   routes: [
     {
       path: '/login',
-      name: 'login'
-      // component: () => import('@/views/login/index.vue')
+      name: 'login',
+      component: () => import('@/views/login/index.vue')
     },
     {
       path: '/',
@@ -100,6 +100,17 @@ const router = createRouter<any>({
     },
     ...routes
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path != '/login') {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      next('/login')
+      return
+    }
+  }
+  next()
 })
 
 export default router

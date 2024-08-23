@@ -38,6 +38,7 @@ import Main from './components/Main/index.vue'
   }
   .layout-main {
     flex: 1;
+    overflow: hidden;
   }
 }
 </style>

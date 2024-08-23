@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineModel, ref } from 'vue'
+import { ref } from 'vue'
 
 const prop = defineProps({
   width: {

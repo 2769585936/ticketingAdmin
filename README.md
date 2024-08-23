@@ -2,7 +2,6 @@
 
 1. 此项目在众多后台项目中找到灵感,写出属于自己的后台管理系统
    
-
 ## Aside 栏 设计思路
 1. Aside 数据从Routes中获取,遍历数据,route的属性hidder为true 不在Aside显示
 2. 有children 视为多级菜单 需要使用递归组件 遍历自身
